@@ -8,7 +8,7 @@ import router from './router'
 
 // Importing main CSS file
 import './assets/main.css'
-import '@/styles/common.css'
+import '@/styles/common.scss'
 
 // Importing API test
 import { getCategory } from '@/apis/testAPI'
