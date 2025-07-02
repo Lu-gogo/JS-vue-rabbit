@@ -6,8 +6,11 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
+// Importing main CSS file
 import './assets/main.css'
+import '@/styles/common.css'
 
+// Importing API test
 import { getCategory } from '@/apis/testAPI'
 getCategory().then(res => {
   console.log(res)
