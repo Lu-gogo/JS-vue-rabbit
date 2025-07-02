@@ -1,5 +1,4 @@
-import './assets/main.css'
-
+// import './assets/main.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
@@ -7,14 +6,13 @@ import App from './App.vue'
 import router from './router'
 
 // Importing main CSS file
-import './assets/main.css'
 import '@/styles/common.scss'
 
 // Importing API test
-import { getCategory } from '@/apis/testAPI'
-getCategory().then(res => {
-  console.log(res)
-})
+// import { getCategory } from '@/apis/testAPI'
+// getCategory().then(res => {
+//   console.log(res)
+// })
 
 const app = createApp(App)
 
