@@ -4,6 +4,9 @@ import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
+// Importing lazy
+import { lazyPlugin } from '@/directives/index.js'
+
 
 // Importing main CSS file
 import '@/styles/common.scss'
@@ -18,5 +21,10 @@ const app = createApp(App)
 
 app.use(createPinia())
 app.use(router)
+app.use(lazyPlugin)
 
 app.mount('#app')
+
+//全局指令
+
+
