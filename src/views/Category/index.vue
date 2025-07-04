@@ -1,9 +1,4 @@
 <script setup>
-// import { getCategoryAPI } from '@/apis/category'
-// import { onMounted, ref}from 'vue'
-// import { useRoute } from 'vue-router'
-// import { onBeforeRouteUpdate } from 'vue-router'
-// import{ getBannerAPI } from '@/apis/home'
 import GoodsItem from '../Home/components/GoodsItem.vue'
 
 import { useBanner } from './composables/useBanner'
@@ -37,7 +32,7 @@ const { categoryData } = useCategory()
           <h3>全部分类</h3>
           <ul>
             <li v-for="i in categoryData.children" :key="i.id">
-              <RouterLink to="/">
+              <RouterLink :to="`/category/sub/${i.id}`">
                 <img :src="i.picture" />
                 <p>{{ i.name }}</p>
               </RouterLink>
