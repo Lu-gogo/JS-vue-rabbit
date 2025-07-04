@@ -17,7 +17,7 @@ onMounted(()=>getCategoryData())
   const goodsList = ref([])
   const reqData =ref({
     categoryId: route.params.id,
-    page: 2,
+    page: 1,
     pageSize: 20,
     sortField: 'publishTime'
   })
@@ -33,6 +33,17 @@ onMounted(()=>getCategoryData())
     reqData.value.page = 1 //切换tab时重置页码
     //重新获取商品列表
     getGoodsList()
+  }
+
+  const disabled = ref(false) //是否禁用加载更多
+  const load =async ()=>{
+    // console.log('加载更多')
+    reqData.value.page++
+    const res = await getSubCategoryAPI(reqData.value)
+    goodsList.value.push(...res.result.items) //追加数据到商品列表
+    if(res.result.items.length === 0){
+      disabled.value = true
+    }
   }
 </script>
 
@@ -53,7 +64,7 @@ onMounted(()=>getCategoryData())
         <el-tab-pane label="最高人气" name="orderNum"></el-tab-pane>
         <el-tab-pane label="评论最多" name="evaluateNum"></el-tab-pane>
       </el-tabs>
-      <div class="body">
+      <div class="body" v-infinite-scroll="load"  :infinite-scroll-disabled="disabled">
          <!-- 商品列表-->
           <GoodsItem v-for="goods in goodsList" :key="goods.id" :goods="goods" />
       </div>
