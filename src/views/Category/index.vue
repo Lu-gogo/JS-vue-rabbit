@@ -1,39 +1,16 @@
 <script setup>
-import { getCategoryAPI } from '@/apis/category'
-import { onMounted, ref}from 'vue'
-import { useRoute } from 'vue-router'
-import{ getBannerAPI } from '@/apis/home'
+// import { getCategoryAPI } from '@/apis/category'
+// import { onMounted, ref}from 'vue'
+// import { useRoute } from 'vue-router'
+// import { onBeforeRouteUpdate } from 'vue-router'
+// import{ getBannerAPI } from '@/apis/home'
 import GoodsItem from '../Home/components/GoodsItem.vue'
-import { onBeforeRouteUpdate } from 'vue-router'
 
-//获取数据
-const categoryData = ref({})
-const route = useRoute()
-const getCategory = async(id = route.params.id)=>{
-  const res = await getCategoryAPI(id)
-  // console.log(res)
-  categoryData.value = res.result
-}
-onMounted(()=>getCategory())
+import { useBanner } from './composables/useBanner'
+const{ bannerList } = useBanner()
 
-//监听路由变化 发送数据
-onBeforeRouteUpdate((to)=>{
-  // console.log('路由变化了')
-  getCategory(to.params.id)
-})
-
-//获取banner数据
-
-const bannerList = ref([])
-const getBanner = async()=>{
-  const res = await getBannerAPI({
-    distributionSite: '2', // 2代表分类页
-  })
-  // console.log(res)
-  bannerList.value = res.result
-}
-
-onMounted(()=> getBanner())
+import { useCategory } from './composables/useCategory'
+const { categoryData } = useCategory()
 
 </script>
 
