@@ -27,11 +27,11 @@ const top = ref(0)
 const positionX = ref(0)
 const positionY = ref(0)
 watch([elementX, elementY],()=>{
-  console.log('鼠标位置变化了')
   //如果鼠标不在盒子里 不执行以下内容
   if(isOutside.value) return
   //有效范围内控制滑块距离
   //横向
+    // console.log('鼠标位置变化了')
   if(elementX.value > 100 && elementX.value <300){
     left.value = elementX.value - 100
   }
