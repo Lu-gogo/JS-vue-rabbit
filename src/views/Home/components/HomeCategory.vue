@@ -15,7 +15,7 @@ import { useCategoryStore } from '@/stores/category'
           <h4>分类推荐 <small>根据您的购买或浏览记录推荐</small></h4>
           <ul>
             <li v-for="i in item.goods" :key="i">
-              <RouterLink to="/">
+              <RouterLink :to="`/detail/${item.goods.id}`">
                 <img :src="i.picture" alt="" />
                 <div class="info">
                   <p class="name ellipsis-2">
