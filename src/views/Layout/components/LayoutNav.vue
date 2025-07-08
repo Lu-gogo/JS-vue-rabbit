@@ -1,6 +1,6 @@
 <script setup>
 import {useUserStore} from '@/stores/user'
-const useStore = useUserStore()
+const userStore = useUserStore()
 
 </script>
 
@@ -11,8 +11,8 @@ const useStore = useUserStore()
         <!-- 多模板渲染 -->
 
         <!-- 用token切换 -->
-        <template v-if="useStore.userInfo.token">
-          <li><a href="javascript:;"><i class="iconfont icon-user"></i>{{useStore.userInfo.account}}</a></li>
+        <template v-if="userStore.userInfo.token">
+          <li><a href="javascript:;"><i class="iconfont icon-user"></i>{{userStore.userInfo.account}}</a></li>
           <li>
             <el-popconfirm title="确认退出吗?" confirm-button-text="确认" cancel-button-text="取消">
               <template #reference>

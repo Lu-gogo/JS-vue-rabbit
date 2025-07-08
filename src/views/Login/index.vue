@@ -7,7 +7,7 @@ import 'element-plus/theme-chalk/el-message.css'
 import {useRouter} from 'vue-router'
 import {useUserStore} from '@/stores/user'
 
-const useStore = useUserStore()
+const userStore = useUserStore()
 //表单对象
  const form = ref({
   account: 'xiaotuxian001',
@@ -50,7 +50,7 @@ const doLogin = ()=>{
       //校验通过
       // const res = await loginAPI({account, password})
       // console.log(res)
-      await useStore.getUserInfo({account, password})
+      await userStore.getUserInfo({account, password})
       //提示用户
       ElMessage({type:'sucess', message:'登录成功'})
       //跳转主页
