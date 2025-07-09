@@ -99,7 +99,8 @@ export const useCartStore = defineStore('cart', () => {
     singleCheck,
     isAll,
     allCheck,
-    clearCart
+    clearCart,
+    updateNewLsit
   }
 }, {
   persist: true //持久化存储
