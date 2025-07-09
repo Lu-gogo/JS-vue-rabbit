@@ -43,13 +43,21 @@ export const useCartStore = defineStore('cart', () => {
     item.selected = selected
   }
 
+  //全选
+  const isAll = computed(() => cartList.value.every((item) => item.selected))
+  const allCheck = (selected) => {
+    cartList.value.forEach(item => item.selected = selected)
+  }
+
   return {
     cartList,
     addCart,
     delCart,
     allCount,
     allPrice,
-    singleCheck
+    singleCheck,
+    isAll,
+    allCheck
   }
 }, {
   persist: true //持久化存储
