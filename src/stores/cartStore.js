@@ -1,6 +1,6 @@
 //封装购物车模块
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 export const useCartStore = defineStore('cart', () => {
   //定义sate - cartList
@@ -20,9 +20,28 @@ export const useCartStore = defineStore('cart', () => {
     }
   }
   //添加购物车操作
+
+  //删除购物车
+  const delCart = (skuId) => {
+    //找到对应的商品
+    //找到删除项下标值 splice
+    //使用数组过滤方法filter
+    const idx = cartList.value.findIndex((item) => skuId === item.skuId)
+    cartList.value.splice(idx, 1)
+  }
+
+  //计算属性
+  //数量
+  const allCount = computed(() => cartList.value.reduce((total, item) => total + item.count, 0)) //总数量
+  //总价
+  const allPrice = computed(() => cartList.value.reduce((total, item) => total + item.count * item.price, 0)) //总数量
+
   return {
     cartList,
-    addCart
+    addCart,
+    delCart,
+    allCount,
+    allPrice
   }
 }, {
   persist: true //持久化存储
