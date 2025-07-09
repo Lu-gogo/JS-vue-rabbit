@@ -1,25 +1,42 @@
 //封装购物车模块
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
+import { useUserStore } from './user'
+
+import { insertCartAPI, findNewCartListAPI } from '@/apis/cart'
 
 export const useCartStore = defineStore('cart', () => {
+  const userStore = useUserStore()
+  const isLogin = computed(() => userStore.userInfo.token)
   //定义sate - cartList
   const cartList = ref([])
   //定义action - addToCart
-  const addCart = (goods) => {
-    //已经添加过 count+1
-    //未添加过 push
-    //匹配skuId能不能在cartList中找到
-    const item = cartList.value.find((item) => goods.skuId === item.skuId)
-    if (item) {
-      item.count += goods.count
-      //更新购物车列表
+  const addCart = async (goods) => {
+    const { skuId, count } = goods
+    if (isLogin.value) {
+      //登陆后加入购物车的逻辑
+      // console.log("登陆成功")
+      await insertCartAPI({ skuId, count })
+      const res = await findNewCartListAPI()
+      cartList.value = res.result
     }
     else {
-      cartList.value.push(goods)
+      //已经添加过 count+1
+      //未添加过 push
+      //匹配skuId能不能在cartList中找到
+      // console.log("未登陆")
+      const item = cartList.value.find((item) => goods.skuId === item.skuId)
+      if (item) {
+        item.count += goods.count
+        //更新购物车列表
+      }
+      else {
+        cartList.value.push(goods)
+      }
     }
+    //添加购物车操作
   }
-  //添加购物车操作
+
 
   //删除购物车
   const delCart = (skuId) => {
