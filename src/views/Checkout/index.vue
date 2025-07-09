@@ -1,6 +1,11 @@
 <script setup>
-import {getCheckInfoAPI} from '@/apis/checkout'
+import {getCheckInfoAPI, createOrderAPI} from '@/apis/checkout'
 import {ref,onMounted } from 'vue'
+import {useRouter} from 'vue-router'
+import { useCartStore } from '@/stores/cartStore'
+
+const cartStore = useCartStore()
+const router = useRouter()
 
 const checkInfo = ref({})
 const curAddress = ref({})  // 地址对象
@@ -33,6 +38,41 @@ const confirm = ()=>{
 const cancel= ()=>{
   showDialog.value = false
 }
+
+//配置切换
+const activeOption = ref('anytime') // 默认激活"不限送货时间"
+const setActiveOption = (option) => {
+  activeOption.value = option
+}
+
+//创建订单
+const createOrder = async()=>{
+  const res = await createOrderAPI({
+    deliveryTimeType:1,
+    payType:1,
+    payChannel:1,
+    butyerMessage: '',
+    goods: checkInfo.value.goods.map(item=>{
+      return{
+        skuId:item.skuId,
+        count:item.count
+      }
+    }),
+    addressId: curAddress.value.id
+  })
+  const orderId = res.result.id
+  router.push({
+    path:'/pay',
+    query:{
+      id:orderId
+    }
+  }
+  )
+  //更新购物车
+  cartStore.updateNewLsit()
+}
+
+
 </script>
 
 <template>
@@ -92,9 +132,9 @@ const cancel= ()=>{
         <!-- 配送时间 -->
         <h3 class="box-title">配送时间</h3>
         <div class="box-body">
-          <a class="my-btn active" href="javascript:;">不限送货时间：周一至周日</a>
-          <a class="my-btn" href="javascript:;">工作日送货：周一至周五</a>
-          <a class="my-btn" href="javascript:;">双休日、假日送货：周六至周日</a>
+          <a class="my-btn" href="javascript:;" :class="{ active: activeOption === 'anytime' }" @click="setActiveOption('anytime')">不限送货时间：周一至周日</a>
+          <a class="my-btn" href="javascript:;"  :class="{ active: activeOption === 'weekday' }" @click="setActiveOption('weekday')">工作日送货：周一至周五</a>
+          <a class="my-btn" href="javascript:;"  :class="{ active: activeOption === 'weekend' }" @click="setActiveOption('weekend')">双休日、假日送货：周六至周日</a>
         </div>
         <!-- 支付方式 -->
         <h3 class="box-title">支付方式</h3>
@@ -127,7 +167,7 @@ const cancel= ()=>{
         </div>
         <!-- 提交订单 -->
         <div class="submit">
-          <el-button type="primary" size="large" >提交订单</el-button>
+          <el-button type="primary" size="large" @click="createOrder">提交订单</el-button>
         </div>
       </div>
     </div>
