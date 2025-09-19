@@ -1,7 +1,7 @@
 # vue-rabbit
 
-==学习做的前端项目==
-~小兔儿鲜电商平台~
+学习做的前端项目
+小兔儿鲜电商平台
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
